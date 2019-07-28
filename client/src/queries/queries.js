@@ -28,7 +28,7 @@ export const addBookMutation = gql`
 `
 
 export const getBookQuery = gql`
-    query($id: string!) {
+    query($id: ID) {
         book(id: $id) {
             id
             name
