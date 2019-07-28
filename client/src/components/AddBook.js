@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { getAuthorsQuery, addBookMutation } from '../queries/queries';
+import { getAuthorsQuery, addBookMutation, getBooksQuery } from '../queries/queries';
 
 const AddBook = (props) => {
     const [name, setName] = useState('');
@@ -8,7 +8,6 @@ const AddBook = (props) => {
     const [authorId, setAuthorId] = useState('');
 
     const renderOptions = () => {
-        console.log(props)
         if(props.getAuthorsQuery.loading === true){
             return <option>Loading options</option>
         }
@@ -21,7 +20,14 @@ const AddBook = (props) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-
+        props.addBookMutation({
+            variables: {
+                name: name,
+                genre: genre,
+                authorId: authorId
+            },
+            refetchQueries: [{ query: getBooksQuery }]
+        });
     }
 
     return (
